@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_delivery_udemy/src/login/login_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,6 +15,14 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return MaterialApp(
+      title: 'Delivery App Flutter',
+      debugShowCheckedModeBanner: false,
+      //Ruta
+      initialRoute: 'login',
+      routes: {
+        'login' : (BuildContext context)=> LoginPage()
+      },
+    );
   }
 }
