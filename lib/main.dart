@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_delivery_udemy/src/login/login_page.dart';
+import 'package:flutter_delivery_udemy/src/utils/my_colors.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -20,9 +22,15 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       //Ruta
       initialRoute: 'login',
+      theme: ThemeData(
+          colorScheme: ColorScheme.fromSwatch(
+            primarySwatch: Colors.red
+          )
+      ),
       routes: {
         'login' : (BuildContext context)=> LoginPage()
       },
+
     );
   }
 }
