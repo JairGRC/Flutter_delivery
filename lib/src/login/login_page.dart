@@ -1,4 +1,7 @@
+
+
 import 'package:flutter/material.dart';
+import 'package:flutter_delivery_udemy/src/utils/my_colors.dart';
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -15,14 +18,29 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
         body: Container(
           width: double.infinity,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+          child: Stack(
             children: [
-              _imageBanner(),
-              _textFieldEmail(),
-              _textFieldPassword(),
-              _buttonLogin(),
-              _textDontHaveAccount()
+              Positioned(
+                  top: -80,
+                  left: -100,
+                  child: _circleLogin()
+              ),
+              Positioned(
+                  child: _textLogin(),
+                  top: 60,
+                  left: 25,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+
+                  _imageBanner(),
+                  _textFieldEmail(),
+                  _textFieldPassword(),
+                  _buttonLogin(),
+                  _textDontHaveAccount()
+                ],
+              ),
             ],
           ),
         )
@@ -50,31 +68,100 @@ class _LoginPageState extends State<LoginPage> {
       ]
     );
   }
+  Widget _textLogin(){
+    return Text(
+      'LOGIN',
+      style: TextStyle(
+        color: Colors.white,
+        fontWeight: FontWeight.bold,
+        fontSize: 22
+      ),
+    );
+  }
   Widget _buttonLogin(){
-    return  ElevatedButton(
-        onPressed: (){},
-        child: Text('INGRESAR')
+    return  Container(
+      width: double.infinity,
+      margin: EdgeInsets.symmetric(horizontal: 50, vertical: 30),
+      child: ElevatedButton(
+          onPressed: (){},
+          child: Text('INGRESAR'),
+          style: ElevatedButton.styleFrom(
+            primary: Colors.red,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30)
+            ),
+            padding: EdgeInsets.symmetric(vertical: 15)
+          ),
+      ),
     );
   }
   Widget _textFieldPassword(){
-    return TextField(
-      decoration: InputDecoration(
-          hintText: 'Contraseña'
-      )
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 50,vertical: 5),
+      decoration: BoxDecoration(
+          color: MyColors.primaryOpacituColor,
+          borderRadius: BorderRadius.circular(30)
+      ),
+      child: TextField(
+        decoration: InputDecoration(
+            hintText: 'Contraseña',
+            border: InputBorder.none,
+            contentPadding: EdgeInsets.all(15),
+            hintStyle: TextStyle(
+                color: MyColors.primaryColorDark
+            ),
+            prefixIcon: Icon(
+              Icons.lock,
+              color: Colors.red,
+            )
+        ),
+      ),
     );
   }
   Widget _textFieldEmail(){
-    return TextField(
-      decoration: InputDecoration(
-          hintText: 'Correo electronico'
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 50, vertical: 5),
+      decoration: BoxDecoration(
+        color: MyColors.primaryOpacituColor,
+        borderRadius: BorderRadius.circular(30)
+      ),
+      child: TextField(
+        decoration: InputDecoration(
+            hintText: 'Correo electronico',
+            border: InputBorder.none,
+            contentPadding: EdgeInsets.all(15),
+            hintStyle: TextStyle(
+                color: MyColors.primaryColorDark
+            ),
+          prefixIcon: Icon(
+            Icons.email,
+            color: Colors.red,
+          )
+        ),
+      ),
+    );
+  }
+  Widget _circleLogin(){
+    return Container(
+      width: 240,
+      height: 230,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(100),
+        color:Colors.red
       ),
     );
   }
   Widget _imageBanner (){
-    return  Image.asset(
-      'assets/img/delivery.png',
-      width: 200,
-      height: 200
+    return  Container(
+      margin: EdgeInsets.only(
+          top: 100,
+          bottom: MediaQuery.of(context).size.height*0.22
+      ),
+      child: Image.asset(
+        'assets/img/delivery.png',
+        width: 200,
+        height: 200
+      ),
     );
   }
 }
