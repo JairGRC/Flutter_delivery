@@ -1,7 +1,10 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter_delivery_udemy/src/login/login_controller.dart';
 import 'package:flutter_delivery_udemy/src/utils/my_colors.dart';
+import 'package:lottie/lottie.dart';
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -10,11 +13,24 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  LoginController _con = new LoginController();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+
+    SchedulerBinding.instance?.addPostFrameCallback((timeStamp) {
+
+      _con.init(context);
+    });
+  }
   // String _name; //Variable privada - Sin raya al piso Variable publica
 
   @override
   //CORRE CODIGO QUE SE MUESTRA EN PANTALLA
   Widget build(BuildContext context) {
+
     return Scaffold(
         body: Container(
           width: double.infinity,
@@ -33,8 +49,8 @@ class _LoginPageState extends State<LoginPage> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-
-                  _imageBanner(),
+                  _lottieAnimation(),
+                  //_imageBanner(),
                   _textFieldEmail(),
                   _textFieldPassword(),
                   _buttonLogin(),
@@ -58,14 +74,31 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
         SizedBox(width: 7),
-        Text(
-          'Registrate',
-          style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Colors.red
+        GestureDetector(
+          onTap: _con.gotoRegisterPage,
+          child: Text(
+            'Registrate',
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.red
+            ),
           ),
         ),
       ]
+    );
+  }
+  Widget _lottieAnimation(){
+    return Container(
+      margin: EdgeInsets.only(
+          top: 150,
+          bottom: MediaQuery.of(context).size.height*0.17
+      ),
+      child: Lottie.asset(
+          'assets/json/delivery.json',
+          width: 350,
+          height: 200,
+          fit: BoxFit.fill
+      ),
     );
   }
   Widget _textLogin(){
@@ -74,7 +107,8 @@ class _LoginPageState extends State<LoginPage> {
       style: TextStyle(
         color: Colors.white,
         fontWeight: FontWeight.bold,
-        fontSize: 22
+        fontSize: 22,
+        fontFamily: 'NimbusSans'
       ),
     );
   }

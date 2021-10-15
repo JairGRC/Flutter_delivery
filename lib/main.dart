@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_delivery_udemy/src/login/login_page.dart';
+import 'package:flutter_delivery_udemy/src/register/register_page.dart';
 import 'package:flutter_delivery_udemy/src/utils/my_colors.dart';
 
 
@@ -23,12 +24,14 @@ class _MyAppState extends State<MyApp> {
       //Ruta
       initialRoute: 'login',
       theme: ThemeData(
+          //fontFamily: 'NimbusSans',
           colorScheme: ColorScheme.fromSwatch(
             primarySwatch: Colors.red
           )
       ),
       routes: {
-        'login' : (BuildContext context)=> LoginPage()
+        'login' : (BuildContext context)=> LoginPage(),
+        'register' : (BuildContext context)=> RegisterPage()
       },
 
     );
