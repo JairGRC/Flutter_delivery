@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_delivery_udemy/src/login/login_page.dart';
-import 'package:flutter_delivery_udemy/src/register/register_page.dart';
+import 'package:flutter_delivery_udemy/src/pages/login/login_page.dart';
+import 'package:flutter_delivery_udemy/src/pages/register/register_page.dart';
+
 import 'package:flutter_delivery_udemy/src/utils/my_colors.dart';
 
 

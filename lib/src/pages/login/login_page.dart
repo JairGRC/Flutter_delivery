@@ -2,7 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_delivery_udemy/src/login/login_controller.dart';
+import 'package:flutter_delivery_udemy/src/pages/login/login_controller.dart';
+
 import 'package:flutter_delivery_udemy/src/utils/my_colors.dart';
 import 'package:lottie/lottie.dart';
 class LoginPage extends StatefulWidget {
@@ -46,16 +47,18 @@ class _LoginPageState extends State<LoginPage> {
                   top: 60,
                   left: 25,
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  _lottieAnimation(),
-                  //_imageBanner(),
-                  _textFieldEmail(),
-                  _textFieldPassword(),
-                  _buttonLogin(),
-                  _textDontHaveAccount()
-                ],
+              SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    _lottieAnimation(),
+                    //_imageBanner(),
+                    _textFieldEmail(),
+                    _textFieldPassword(),
+                    _buttonLogin(),
+                    _textDontHaveAccount()
+                  ],
+                ),
               ),
             ],
           ),
@@ -117,7 +120,7 @@ class _LoginPageState extends State<LoginPage> {
       width: double.infinity,
       margin: EdgeInsets.symmetric(horizontal: 50, vertical: 30),
       child: ElevatedButton(
-          onPressed: (){},
+          onPressed: _con.login,
           child: Text('INGRESAR'),
           style: ElevatedButton.styleFrom(
             primary: Colors.red,
@@ -137,6 +140,8 @@ class _LoginPageState extends State<LoginPage> {
           borderRadius: BorderRadius.circular(30)
       ),
       child: TextField(
+        controller: _con.passwordController,
+        obscureText: true,
         decoration: InputDecoration(
             hintText: 'Contraseña',
             border: InputBorder.none,
@@ -160,6 +165,8 @@ class _LoginPageState extends State<LoginPage> {
         borderRadius: BorderRadius.circular(30)
       ),
       child: TextField(
+        controller: _con.emailController,
+        keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
             hintText: 'Correo electronico',
             border: InputBorder.none,
