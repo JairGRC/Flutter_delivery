@@ -11,6 +11,9 @@ import 'package:flutter_delivery_udemy/src/pages/roles/roles_pages.dart';
 
 import 'package:flutter_delivery_udemy/src/utils/my_colors.dart';
 
+import 'src/pages/client/address/create/client_address_create_page.dart';
+import 'src/pages/client/address/list/client_address_list_page.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -47,6 +50,10 @@ class _MyAppState extends State<MyApp> {
         'delivery/categories/create':(BuildContext context)=> EcommerceCategorieCreatePage(),
         'delivery/products/create':(BuildContext context)=> EcommerceProductsCreatePage(),
         'roles':(BuildContext context)=> RolesPage(),
+        /* agregado recien */
+        'client/address/list' : (BuildContext context) => ClientAddressListPage(),
+        'client/address/create' : (BuildContext context) =>ClientAddressCreatePage()
+        ,
       },
 
     );
