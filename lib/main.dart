@@ -3,6 +3,7 @@ import 'package:flutter_delivery_udemy/src/pages/Delivery/orders/list/delivery_o
 import 'package:flutter_delivery_udemy/src/pages/Ecommerce/Categories/create/ecommerce_categories_create_page.dart';
 import 'package:flutter_delivery_udemy/src/pages/Ecommerce/orders/list/ecommerce_orders_list_page.dart';
 import 'package:flutter_delivery_udemy/src/pages/Ecommerce/products/Create/ecommerce_product_create_page.dart';
+import 'package:flutter_delivery_udemy/src/pages/client/orders/create/client_orders_create_page.dart';
 import 'package:flutter_delivery_udemy/src/pages/client/products/list/client_products_list_page.dart';
 import 'package:flutter_delivery_udemy/src/pages/client/update/client_update_page.dart';
 import 'package:flutter_delivery_udemy/src/pages/login/login_page.dart';
@@ -35,12 +36,14 @@ class _MyAppState extends State<MyApp> {
           //fontFamily: 'NimbusSans',
           colorScheme: ColorScheme.fromSwatch(
             primarySwatch: Colors.red
-          )
+          ),
+        appBarTheme: AppBarTheme(elevation: 0),
       ),
       routes: {
         'login' : (BuildContext context)=> LoginPage(),
         'register' : (BuildContext context)=> RegisterPage(),
         'client/products/list':(BuildContext context)=> ClienteProductListPage(),
+        'client/orders/create':(BuildContext context)=> ClientOrdersCreatePage(),
         'client/update':(BuildContext context)=> ClientUpdatePage(),
         'ecommerce/orders/list':(BuildContext context)=> EcommerceOrderListPage(),
         'delivery/orders/list':(BuildContext context)=> DeliveryOrdersListPage(),
