@@ -2,19 +2,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_delivery_udemy/src/pages/register/register_controller.dart';
+
 
 import 'package:flutter_delivery_udemy/src/utils/my_colors.dart';
 
-class RegisterPage extends StatefulWidget {
-  const RegisterPage({Key key}) : super(key: key);
+import 'cliente_update_controller.dart';
+
+class ClientUpdatePage extends StatefulWidget {
+  const ClientUpdatePage({Key key}) : super(key: key);
 
   @override
-  _RegisterPageState createState() => _RegisterPageState();
+  _ClientUpdatePageState createState() => _ClientUpdatePageState();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
-  RegisterController _con=new RegisterController();
+class _ClientUpdatePageState extends State<ClientUpdatePage> {
+  ClientUpdateController _con=new ClientUpdateController();
   @override
   void initState() {
     // TODO: implement initState
@@ -26,46 +28,25 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Editar perfil'),
+      ),
       body: Container(
         width: double.infinity,
-        child: Stack(
-          children:[
-            Positioned(
-            top: -80,
-            left: -100,
-            child: _circle()
-        ),
-        Positioned(
-            child: _textRegister(),
-            top: 65,
-            left: 25,
+        child: SingleChildScrollView(
+          child: Column(
+            children:[
+              SizedBox(height: 50),
+              _imageUser(),
+              SizedBox(height: 30),
+              _textFieldName(),
+              _textFieldLastName(),
+              _textFieldPhone(),
+            ],
           ),
-            Positioned(
-              child: _iconBack(),
-              top: 51,
-              left: -5,
-            ),
-          Container(
-            margin:EdgeInsets.only(top: 150),
-            width: double.infinity,
-            child: SingleChildScrollView(
-              child: Column(
-                children:[
-                  _imageUser(),
-                  SizedBox(height: 30),
-                  _textFieldEmail(),
-                  _textFieldName(),
-                  _textFieldLastName(),
-                  _textFieldPhone(),
-                  _textFieldPassword(),
-                  _textFieldConfirmPassword(),
-                  _buttonRegister()
-                ],
-              ),
-            ),
-          )],
         ),
       ),
+      bottomNavigationBar: _buttonRegister(),
     );
   }
   Widget _imageUser(){
@@ -74,7 +55,9 @@ class _RegisterPageState extends State<RegisterPage> {
       child: CircleAvatar(
         backgroundImage: _con.imageFile !=null
             ? FileImage(_con.imageFile)
-        : AssetImage('assets/img/user_profile_2.png'),
+            : _con.user?.image !=null
+            ? NetworkImage(_con.user?.image)
+            : AssetImage('assets/img/user_profile_2.png'),
         radius:60,
         backgroundColor: Colors.grey[200],
       ),
@@ -95,31 +78,7 @@ class _RegisterPageState extends State<RegisterPage> {
         onPressed: _con.back,
         icon: Icon(Icons.arrow_back_ios, color:Colors.white));
   }
-  Widget _textFieldEmail(){
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 50, vertical: 5),
-      decoration: BoxDecoration(
-          color: MyColors.primaryOpacituColor,
-          borderRadius: BorderRadius.circular(30)
-      ),
-      child: TextField(
-        controller: _con.emailController,
-        keyboardType: TextInputType.emailAddress,
-        decoration: InputDecoration(
-            hintText: 'Correo electronico',
-            border: InputBorder.none,
-            contentPadding: EdgeInsets.all(15),
-            hintStyle: TextStyle(
-                color: MyColors.primaryColorDark
-            ),
-            prefixIcon: Icon(
-              Icons.email,
-              color: Colors.red,
-            )
-        ),
-      ),
-    );
-  }
+
   Widget _textFieldName(){
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 50, vertical: 5),
@@ -193,63 +152,14 @@ class _RegisterPageState extends State<RegisterPage> {
       ),
     );
   }
-  Widget _textFieldPassword(){
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 50, vertical: 5),
-      decoration: BoxDecoration(
-          color: MyColors.primaryOpacituColor,
-          borderRadius: BorderRadius.circular(30)
-      ),
-      child: TextField(
-        controller: _con.passwordController,
-        obscureText: true,
-        decoration: InputDecoration(
-            hintText: 'Contraseña',
-            border: InputBorder.none,
-            contentPadding: EdgeInsets.all(15),
-            hintStyle: TextStyle(
-                color: MyColors.primaryColorDark
-            ),
-            prefixIcon: Icon(
-              Icons.lock,
-              color: Colors.red,
-            )
-        ),
-      ),
-    );
-  }
-  Widget _textFieldConfirmPassword(){
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 50, vertical: 5),
-      decoration: BoxDecoration(
-          color: MyColors.primaryOpacituColor,
-          borderRadius: BorderRadius.circular(30)
-      ),
-      child: TextField(
-        controller: _con.confirPasswordController,
-        obscureText: true,
-        decoration: InputDecoration(
-            hintText: 'Confirmar contraseña',
-            border: InputBorder.none,
-            contentPadding: EdgeInsets.all(15),
-            hintStyle: TextStyle(
-                color: MyColors.primaryColorDark
-            ),
-            prefixIcon: Icon(
-              Icons.lock_outline,
-              color: Colors.red,
-            )
-        ),
-      ),
-    );
-  }
+
   Widget _buttonRegister(){
     return  Container(
       width: double.infinity,
       margin: EdgeInsets.symmetric(horizontal: 50, vertical: 30),
       child: ElevatedButton(
-        onPressed: _con.isEnable ? _con.Register : null,
-        child: Text('INGRESAR'),
+        onPressed: _con.isEnable ? _con.update : null,
+        child: Text('ACTUALIZAR PERFIL'),
         style: ElevatedButton.styleFrom(
             primary: Colors.red,
             shape: RoundedRectangleBorder(

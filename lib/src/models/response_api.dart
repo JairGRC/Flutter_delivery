@@ -5,9 +5,9 @@ ResponseApi responseApiFromJson(String str) => ResponseApi.fromJson(json.decode(
 String responseApiToJson(ResponseApi data) => json.encode(data.toJson());
 
 class ResponseApi {
-  late String? mesagge;
-  late String? error;
-  late bool? success;
+   String mesagge;
+   String error;
+   bool success;
 
   dynamic data;
 

@@ -7,7 +7,7 @@ import 'package:flutter_delivery_udemy/src/pages/login/login_controller.dart';
 import 'package:flutter_delivery_udemy/src/utils/my_colors.dart';
 import 'package:lottie/lottie.dart';
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  const LoginPage({Key key}) : super(key: key);
 
   @override
   _LoginPageState createState() => _LoginPageState();

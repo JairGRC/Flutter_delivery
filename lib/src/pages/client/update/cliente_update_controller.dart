@@ -6,25 +6,26 @@ import 'package:flutter_delivery_udemy/src/models/response_api.dart';
 import 'package:flutter_delivery_udemy/src/models/user.dart';
 import 'package:flutter_delivery_udemy/src/provider/users_provider.dart';
 import 'package:flutter_delivery_udemy/src/utils/my_snackbar.dart';
+import 'package:flutter_delivery_udemy/src/utils/shared_pref.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sn_progress_dialog/progress_dialog.dart';
 
 
-class RegisterController{
+class ClientUpdateController{
   BuildContext context;
-  TextEditingController emailController=new TextEditingController();
+
   TextEditingController nameController=new TextEditingController();
   TextEditingController lastnameController=new TextEditingController();
   TextEditingController phoneController=new TextEditingController();
-  TextEditingController passwordController=new TextEditingController();
-  TextEditingController confirPasswordController=new TextEditingController();
   PickedFile pickedFile;
   File imageFile;
   Function refresh;
 
   ProgressDialog _progressDialog;
   bool isEnable=true;
-
+  User user;
+  SharedPref _sharedPref=new SharedPref();
 
   UsersProvider usersProvider=new UsersProvider();
   Future init(BuildContext context, Function refresh)  async {
@@ -32,70 +33,59 @@ class RegisterController{
     this.refresh=refresh;
     await usersProvider.init(context);
     _progressDialog = ProgressDialog(context: context);
-    //refresh();
+    user = User.fromJson(await _sharedPref.read('user'));
+    nameController.text=user.name;
+    lastnameController.text=user.lastname;
+    phoneController.text=user.phone;
+    refresh();
   }
 
-  void Register() async{
-    String email=emailController.text.trim();
-    String password=passwordController.text.trim();
+  void update() async{
+
     String name=nameController.text.trim();
     String lastname=lastnameController.text.trim();
     String phone=phoneController.text.trim();
-    String confirPassword=confirPasswordController.text.trim();
 
-    if(email.isEmpty ||password.isEmpty||name.isEmpty||lastname.isEmpty||phone.isEmpty||confirPassword.isEmpty){
+
+    if(name.isEmpty||lastname.isEmpty||phone.isEmpty){
       MySnackbar.show(context, 'Debes ingresar todos los campos');
       return;
     }
-    if(confirPassword!=password){
-      MySnackbar.show(context, 'Las contraseñas no coinciden');
-      return;
-    }
-    if(password.length<6){
-      MySnackbar.show(context, 'Las contraseña debe tener al menos 6 caracteres');
-      return;
-    }
 
-    if(imageFile == null){
-      MySnackbar.show(context, 'Selecciona una imagen');
-      return;
-    }
     _progressDialog.show(max: 100, msg: 'Espere un momento...');
     isEnable=false;
 
-    User user=new User(
-      email: email,
+    User myuser=new User(
+      id: user.id,
       name:name,
       lastname: lastname,
       phone: phone,
-      password: password,
+      image: user.image
 
     );
 
-    Stream stream = await usersProvider.createWithImage(user, imageFile);
-    stream.listen((res) {
+    Stream stream = await usersProvider.update(myuser, imageFile);
+    stream.listen((res) async{
 
       _progressDialog.close();
-     // ResponseApi responseApi=await usersProvider.create(user);
+      // ResponseApi responseApi=await usersProvider.create(user);
       ResponseApi responseApi= ResponseApi.fromJson(json.decode(res));
-      print('Respuesta1: ${responseApi.toJson()}');
-      MySnackbar.show(context, responseApi.mesagge.toString());
+      Fluttertoast.showToast(msg: responseApi.mesagge.toString());
       if(responseApi.success){
-        Future.delayed(Duration(seconds: 3),(){
-          Navigator.pushReplacementNamed(context, 'login');
-        });
+        user= await usersProvider.getById(myuser.id); // Otieniendo el usuario de la BD
+        _sharedPref.save('user', user.toJson());
+        Navigator.pushNamedAndRemoveUntil(context, 'client/products/list', (route) => false);
       }else{
         isEnable=true;
       }
 
     });
 
-    print('Email: $email');
-    print('Passoword: $password');
+
     print('name: $name');
     print('lastname: $lastname');
     print('phone: $phone');
-    print('confirPassword: $confirPassword');
+
   }
   void back(){
     Navigator.pop(context);
